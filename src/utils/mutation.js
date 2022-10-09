@@ -7,6 +7,14 @@ export const MUTATION_ADD_LIKE = gql`
   }
 `;
 
+export const MUTATION_REMOVE_LIKE = gql`
+  mutation removeLike($id: ID!) {
+    removeLike(id: $id) {
+      message
+    }
+  }
+`;
+
 export const MUTATION_ADD_POST = gql`
   mutation addPost($input: ADD_POST_INPUT!) {
     addPost(input: $input) {

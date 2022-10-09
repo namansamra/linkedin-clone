@@ -16,16 +16,22 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client';
-import { MUTATION_ADD_COMMENT, MUTATION_ADD_LIKE } from '../../utils/mutation';
+import {
+  MUTATION_ADD_COMMENT,
+  MUTATION_ADD_LIKE,
+  MUTATION_REMOVE_LIKE,
+} from '../../utils/mutation';
 import { BiDotsHorizontalRounded, BiSave, BiShareAlt } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import parse from 'html-react-parser';
 import { useGlobalStore } from '../../store/store';
+import { QUERY_GET_ALL_POSTS } from '../../utils/query';
 const emotions = [
   'https://static-exp1.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt',
   'https://static-exp1.licdn.com/sc/h/lhxmwiwoag9qepsh4nc28zus',
   'https://static-exp1.licdn.com/sc/h/cpho5fghnpme8epox8rdcds22',
 ];
+
 const specific = [
   'Virat Kohli',
   'Rohit Sharma',
@@ -48,12 +54,23 @@ const specific = [
   'DA Warner',
 ];
 function PostView({ post }) {
-  const [addLike] = useMutation(MUTATION_ADD_LIKE);
-  const [addComment] = useMutation(MUTATION_ADD_COMMENT);
+  const [addLike] = useMutation(MUTATION_ADD_LIKE, {
+    refetchQueries: [{ query: QUERY_GET_ALL_POSTS }],
+  });
+  const [removeLike] = useMutation(MUTATION_REMOVE_LIKE, {
+    refetchQueries: [{ query: QUERY_GET_ALL_POSTS }],
+  });
+  const [addComment] = useMutation(MUTATION_ADD_COMMENT, {
+    refetchQueries: [{ query: QUERY_GET_ALL_POSTS }],
+  });
   const userInfo = useGlobalStore((state) => state.appState.userInfo);
   const [showAddComment, setShowAddComment] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
   const [comment, setComment] = useState('');
+  const [isLiked, setIsLiked] = useState(false);
+  const [indexForLikePerson] = useState(
+    Math.floor(Math.random() * specific.length)
+  );
   // console.log(userInfo, post);
   const buttomButtons = React.useMemo(
     () => [
@@ -61,15 +78,44 @@ function PostView({ post }) {
         id: Math.random() * 1000,
         title: 'Like',
         handler: () => {
-          addLike({
-            variables: {
-              input: {
-                postId: post.id,
-              },
-            },
-          });
+          setIsLiked((prev) => !prev);
+
+          isLiked
+            ? removeLike({ variables: { id: post.id } })
+            : addLike({
+                variables: {
+                  input: {
+                    postId: post.id,
+                  },
+                },
+              });
         },
-        icon: (
+        icon: isLiked ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            id="like-creation-medium"
+            data-supported-dps="24x24"
+          >
+            <g>
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path
+                d="M12.69 9.5H5.06a1.8 1.8 0 00-1.56 2A1.62 1.62 0 005.15 13h.29a1.38 1.38 0 00-1.34 1.39 1.43 1.43 0 001.31 1.42A1.42 1.42 0 006 18.35a1.45 1.45 0 00-.15 1 1.51 1.51 0 001.51 1.12h4.08a6.3 6.3 0 001.56-.2l2.56-.75h3.38c1.78-.07 2.26-8.26 0-8.26h-1c-.17 0-.27-.34-.71-.82-.65-.71-1.39-1.62-1.91-2.13a12.62 12.62 0 01-3-3.92C11.9 3.42 11.85 3 11 3a1.38 1.38 0 00-1.21 1.45c0 .25.13 1.12.18 1.43a10.6 10.6 0 001.76 3.62"
+                fill="#378fe9"
+                fill-rule="evenodd"
+              />
+              <path
+                d="M5.06 10a1.42 1.42 0 00-1.56 1.5A1.6 1.6 0 005.15 13h.29a1.37 1.37 0 00-1.34 1.41 1.43 1.43 0 001.31 1.42A1.42 1.42 0 006 18.37a1.45 1.45 0 00-.15 1 1.53 1.53 0 001.52 1.13h4.08a6.8 6.8 0 001.55-.21l2.56-.75h3.38c1.78-.07 2.26-8.26 0-8.26h-1c-.17 0-.27-.34-.71-.82-.65-.71-1.39-1.62-1.91-2.13a12.62 12.62 0 01-3-3.92C11.9 3.44 11.85 3 11 3a1.29 1.29 0 00-.91.48 1.32 1.32 0 00-.3 1c0 .25.13 1.12.18 1.43A15.82 15.82 0 0011.73 10z"
+                fill="none"
+                stroke="#004182"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+          </svg>
+        ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -108,16 +154,7 @@ function PostView({ post }) {
       {
         id: Math.random() * 1000,
         title: 'Share',
-        handler: () => {
-          // addComment({
-          //   variables: {
-          //     input: {
-          //       postId: post.id,
-          //       userId: post.user.id,
-          //     },
-          //   },
-          // });
-        },
+        handler: () => {},
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -136,16 +173,7 @@ function PostView({ post }) {
       {
         id: Math.random() * 1000,
         title: 'Send',
-        handler: () => {
-          // addComment({
-          //   variables: {
-          //     input: {
-          //       postId: post.id,
-          //       userId: post.user.id,
-          //     },
-          //   },
-          // });
-        },
+        handler: () => {},
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +190,7 @@ function PostView({ post }) {
         ),
       },
     ],
-    [post]
+    [post, isLiked]
   );
 
   const handleSubmitComment = (e) => {
@@ -171,7 +199,6 @@ function PostView({ post }) {
       variables: {
         input: {
           body: comment,
-          userId: userInfo?.id,
           postId: post?.id,
         },
       },
@@ -298,8 +325,7 @@ function PostView({ post }) {
               />
             ))}
             <Text ml={'1rem'} color="rgba(0, 0, 0, 0.6)" fontSize={'1.2rem'}>
-              {specific[Math.floor(Math.random() * specific.length)]} and{' '}
-              {post.likes} others
+              {specific[indexForLikePerson]} and {post.likes} others
             </Text>
           </HStack>
           {post.comments?.length > 0 && (

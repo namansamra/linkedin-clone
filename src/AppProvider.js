@@ -22,7 +22,7 @@ const GlobalStyles = css`
 
 function AppProvider({ children }) {
   const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: process.env.BACKEND_URL,
   });
 
   const authLink = setContext((_, { headers }) => {
