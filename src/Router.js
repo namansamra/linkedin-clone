@@ -9,9 +9,9 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Login />} />
-        <Route path="login" exact element={<Login />} />
+        <Route path="/login" exact element={<Login />} />
         <Route
-          path="home"
+          path="/home"
           exact
           element={
             <ProtectedRoute>
@@ -20,7 +20,7 @@ function Router() {
           }
         />
         <Route
-          path="network"
+          path="/network"
           exact
           element={
             <ProtectedRoute>
@@ -29,7 +29,7 @@ function Router() {
           }
         />
         <Route
-          path="notifications"
+          path="/notifications"
           exact
           element={
             <ProtectedRoute>
@@ -38,7 +38,7 @@ function Router() {
           }
         />
         <Route
-          path="jobs"
+          path="/jobs"
           exact
           element={
             <ProtectedRoute>
@@ -47,7 +47,7 @@ function Router() {
           }
         />
         <Route
-          path="posts"
+          path="/posts"
           exact
           element={
             <ProtectedRoute>
@@ -56,7 +56,7 @@ function Router() {
           }
         />
         <Route
-          path="profile"
+          path="/profile"
           exact
           element={
             <ProtectedRoute>
@@ -66,7 +66,7 @@ function Router() {
         />
 
         <Route
-          path="userprofileform"
+          path="/userprofileform"
           exact
           element={
             <ProtectedRoute>
