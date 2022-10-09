@@ -22,7 +22,7 @@ const GlobalStyles = css`
 
 function AppProvider({ children }) {
   const httpLink = createHttpLink({
-    uri: process.env.BACKEND_URL,
+    uri: process.env.REACT_APP_BACKEND_URL,
   });
 
   const authLink = setContext((_, { headers }) => {
