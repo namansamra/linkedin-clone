@@ -41,7 +41,6 @@ function PostCreatorView({ isOpen, onClose }) {
     addPost({
       variables: {
         input: {
-          user: userInfo?.id,
           body: body,
           createdAt: new Date().toString(),
           image: imageLink,
