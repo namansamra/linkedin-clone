@@ -6,7 +6,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useGlobalStore } from '../../store/store';
-import { queryErrorHandler } from '../ErrorToast/ErrorToast';
+import { FcGoogle } from 'react-icons/fc';
 
 function Login() {
   const [userSignIn, { data, loading, error }] =
@@ -102,7 +102,24 @@ function Login() {
           <Divider orientation="horizontal" />
         </Flex>
       </Flex>
-      <div onClick={login}>Sign in with Google 🚀 </div>
+      <Flex
+        onClick={login}
+        padding="12px"
+        alignItems={'center'}
+        bg="white"
+        borderRadius="10"
+        width={'200px'}
+        justifyContent="center"
+        cursor={'pointer'}
+        _hover={{ bgColor: '#f6f6f6', shadow: 'xl' }}
+        fontWeight="500"
+        fontSize={'16px'}
+        color="#111"
+        bgColor={'#ececec'}
+      >
+        Sign in with
+        <FcGoogle size={25} style={{ marginLeft: '10px' }} />
+      </Flex>
     </Flex>
   );
 }

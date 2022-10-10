@@ -9,7 +9,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Login />} />
-        <Route path="/login" exact element={<Login />} />
+        <Route index path="/login" exact element={<Login />} />
         <Route
           path="/home"
           exact
