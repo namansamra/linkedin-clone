@@ -1,12 +1,12 @@
 import React from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import UserProfileForm from './components/UserProfileForm/UserProfileForm';
 import { TimelineContainer } from './pages/Timeline';
 function Router() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Login />} />
         <Route path="/login" exact element={<Login />} />
@@ -75,7 +75,7 @@ function Router() {
           }
         />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
