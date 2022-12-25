@@ -9,7 +9,6 @@ export const useGlobalStore = create(
         appState: {
           userInfo: null,
         },
-
         setUserInfo: (data) => {
           set(
             produce((state) => {

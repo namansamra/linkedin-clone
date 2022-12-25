@@ -40,6 +40,14 @@ export const MUTATION_USER_SIGNIN = gql`
       avatar
       access_token
       otherInfoFilled
+      savedPosts {
+        id
+        user {
+          id
+          emailId
+          name
+        }
+      }
     }
   }
 `;
@@ -59,6 +67,22 @@ export const MUTATION_REMOVE_POST = gql`
   mutation removePost($input: REMOVE_POST!) {
     removePost(input: $input) {
       id
+    }
+  }
+`;
+
+export const MUTATION_SAVE_POST = gql`
+  mutation savePost($id: ID!) {
+    savePost(id: $id) {
+      message
+    }
+  }
+`;
+
+export const MUTATION_UNSAVE_POST = gql`
+  mutation unsavePost($id: ID!) {
+    unsavePost(id: $id) {
+      message
     }
   }
 `;

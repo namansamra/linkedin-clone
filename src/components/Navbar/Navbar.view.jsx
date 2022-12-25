@@ -17,6 +17,7 @@ import { BsLinkedin, BsFillCaretDownFill } from 'react-icons/bs';
 import { MdOutlineSearch } from 'react-icons/md';
 import { FaBriefcase } from 'react-icons/fa';
 import { AiFillHome, AiOutlineAppstore, AiOutlineHeart } from 'react-icons/ai';
+import { FcLike } from 'react-icons/fc';
 import { MdGroup } from 'react-icons/md';
 import { useLocation, useNavigate } from 'react-router';
 import { IoNotificationsSharp } from 'react-icons/io5';
@@ -38,9 +39,9 @@ const options = [
   },
   {
     id: 3,
-    name: 'Posts',
-    path: '/posts',
-    icon: <AiOutlineAppstore size={25} />,
+    name: 'Saved Posts',
+    path: '/savedPosts',
+    icon: <AiOutlineHeart size={25} />,
   },
   {
     id: 4,

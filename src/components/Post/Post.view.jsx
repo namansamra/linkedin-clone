@@ -20,12 +20,14 @@ import {
   MUTATION_ADD_COMMENT,
   MUTATION_ADD_LIKE,
   MUTATION_REMOVE_LIKE,
+  MUTATION_SAVE_POST,
+  MUTATION_UNSAVE_POST,
 } from '../../utils/mutation';
 import { BiDotsHorizontalRounded, BiSave, BiShareAlt } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import parse from 'html-react-parser';
 import { useGlobalStore } from '../../store/store';
-import { QUERY_GET_ALL_POSTS } from '../../utils/query';
+import { QUERY_GET_ALL_POSTS, QUERY_GET_SAVED_POSTS } from '../../utils/query';
 const emotions = [
   'https://static-exp1.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt',
   'https://static-exp1.licdn.com/sc/h/lhxmwiwoag9qepsh4nc28zus',
@@ -53,9 +55,15 @@ const specific = [
   'MS Wade',
   'DA Warner',
 ];
-function PostView({ post }) {
+function PostView({ post, isSavedPostsScreen }) {
   const [addLike] = useMutation(MUTATION_ADD_LIKE, {
     refetchQueries: [{ query: QUERY_GET_ALL_POSTS }],
+  });
+  const [savePost] = useMutation(MUTATION_SAVE_POST, {
+    refetchQueries: [{ query: QUERY_GET_SAVED_POSTS }],
+  });
+  const [unsavePost] = useMutation(MUTATION_UNSAVE_POST, {
+    refetchQueries: [{ query: QUERY_GET_SAVED_POSTS }],
   });
   const [removeLike] = useMutation(MUTATION_REMOVE_LIKE, {
     refetchQueries: [{ query: QUERY_GET_ALL_POSTS }],
@@ -72,6 +80,8 @@ function PostView({ post }) {
     Math.floor(Math.random() * specific.length)
   );
   // console.log(userInfo, post);
+
+  console.log(userInfo?.savedPosts);
   const buttomButtons = React.useMemo(
     () => [
       {
@@ -290,7 +300,16 @@ function PostView({ post }) {
             {userInfo.id === post.user.id && (
               <MenuItem icon={<RiDeleteBinLine size={20} />}>Delete</MenuItem>
             )}
-            <MenuItem icon={<BiSave size={20} />}>Save Post</MenuItem>
+            <MenuItem
+              icon={<BiSave size={20} />}
+              onClick={() => {
+                isSavedPostsScreen
+                  ? unsavePost({ variables: { id: post.id } })
+                  : savePost({ variables: { id: post.id } });
+              }}
+            >
+              {isSavedPostsScreen ? 'Unsave Post' : 'Save Post'}
+            </MenuItem>
             <MenuItem icon={<BiShareAlt size={20} />}>Share</MenuItem>
           </MenuList>
         </Menu>

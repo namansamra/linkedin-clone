@@ -24,6 +24,7 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.6",
     "ts-invariant": "^0.10.3",
     "web-vitals": "^2.1.4",
     "zustand": "^4.0.0-rc.1"

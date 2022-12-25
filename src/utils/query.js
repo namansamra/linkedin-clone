@@ -51,3 +51,32 @@ export const QUERY_GET_SINGLE_POST = gql`
     }
   }
 `;
+
+export const QUERY_GET_SAVED_POSTS = gql`
+  query savedPosts {
+    savedPosts {
+      id
+      body
+      image
+      likes
+      user {
+        name
+        emailId
+        avatar
+        id
+        position
+        company
+      }
+      comments {
+        id
+        body
+        userId {
+          name
+          avatar
+          id
+          position
+        }
+      }
+    }
+  }
+`;

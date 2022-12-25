@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import UserProfileForm from './components/UserProfileForm/UserProfileForm';
+import { SavedPostsContainer } from './pages/SavedPosts';
 import { TimelineContainer } from './pages/Timeline';
 function Router() {
   return (
@@ -47,11 +48,11 @@ function Router() {
           }
         />
         <Route
-          path="/posts"
+          path="/savedposts"
           exact
           element={
             <ProtectedRoute>
-              <TimelineContainer />
+              <SavedPostsContainer />
             </ProtectedRoute>
           }
         />
